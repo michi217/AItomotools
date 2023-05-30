@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./segmentation"
+    ],
+    "python.analysis.typeCheckingMode": "off"
+}
