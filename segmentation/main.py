@@ -2,6 +2,8 @@ import torch
 from torch.utils.data import DataLoader 
 import time
 from train import Optimizer
+#from AItomotools.utils.paths import LIDC_IDRI_PROCESSED_DATASET_PATH
+from AItomotools.data_loaders.LIDC_IDRI import LIDC_IDRI
 
 class Segmentation():
     def __init__(self, data, parameters):
@@ -10,13 +12,11 @@ class Segmentation():
 
     def __call__(self):
         """Run Algorithm"""
-        print(torch.cuda.is_available())
         # Create a time string to identify the run
         timestr = time.strftime("%d%m%Y-%H%M")
 
         # Create dataloader
-        # TODO
-        dataloader = None
+        dataloader = DataLoader(self.data, batch_size=self.params['batch_size'], shuffle=True)
 
         # Run training loop
         optimizing = Optimizer()
@@ -31,13 +31,13 @@ class Segmentation():
 
 def main():
     # Initialize dataset
-    data = None #TODO
+    data = LIDC_IDRI("segmentation", 0.8, "training")
 
     # Set training parameters
     params = {
         "device": torch.device('cuda'),
         "learning_rate": 0.001,
-        "epochs": 2,
+        "epochs": 1,
         "batch_size": 8,
         "momentum": None,
         "weigth_decay": None,
