@@ -2,7 +2,7 @@
 
 WIP
 
-## Familiarize yourself with the structure of the tool 
+## Familiarize yourself with the structure of the tool
 
 <pre>
 ./AItomotools     : The toolbox
@@ -19,3 +19,6 @@ WIP
 ├── paper_scripts           -> Code that reproduces published papers
 </pre>
 
+## Template of a model
+
+Go to `./AItomotools/models/template.py` to see the template you should use for a model. 
