@@ -2,7 +2,6 @@ import torch
 from torch.utils.data import DataLoader 
 import time
 from train import Optimizer
-#from AItomotools.utils.paths import LIDC_IDRI_PROCESSED_DATASET_PATH
 from AItomotools.data_loaders.LIDC_IDRI import LIDC_IDRI
 
 class Segmentation():
