@@ -8,7 +8,11 @@ AItomotools.egg-info/dependency_links.txt
 AItomotools.egg-info/top_level.txt
 AItomotools/CTtools/__init__.py
 AItomotools/CTtools/ct_geometry.py
+AItomotools/CTtools/ct_transforms.py
 AItomotools/CTtools/ct_utils.py
+AItomotools/backends/__init__.py
+AItomotools/backends/odl.py
+AItomotools/data_loaders/LIDC_IDRI.py
 AItomotools/data_loaders/LUNA16.py
 AItomotools/data_loaders/__init__.py
 AItomotools/data_loaders/data_loader.py
@@ -24,3 +28,7 @@ AItomotools/utils/math.py
 AItomotools/utils/parameter.py
 AItomotools/utils/paths.py
 AItomotools/utils/utils.py
+segmentation/__init__.py
+segmentation/main.py
+segmentation/model.py
+segmentation/train.py
