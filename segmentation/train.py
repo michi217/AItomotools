@@ -61,11 +61,11 @@ class Optimizer():
                     fig=plt.figure()
 
                     fig.add_subplot(1, 2, 1).set_title('Prediction')   
-                    plt.imshow(pred[0][0].float().detach().cpu(), cmap=plt.cm.gray)#, cmap=cmap)
+                    plt.imshow(pred[0][0].float().detach().cpu(), cmap=plt.cm.gray_r, vmin=0., vmax=1.)
 
                     fig.add_subplot(1, 2, 2).set_title('Target')   
                     # my data is OK to use gray colormap (0:black, 1:white)
-                    plt.imshow(mask_tensor[0][0].float().detach().cpu(), cmap=plt.cm.gray)#, cmap=plt.cm.gray)  
+                    plt.imshow(mask_tensor[0][0].float().detach().cpu(), cmap=plt.cm.gray_r, vmin=0., vmax=1.) 
                     plt.savefig('result' + str(steps) + '.png')
 
                 steps+=1
