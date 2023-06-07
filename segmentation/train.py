@@ -1,7 +1,9 @@
 from model import Resnet101
 import torch
 import torch.nn as nn
-from torch.utils.tensorboard import SummaryWriter
+from torch.utils.tensorboard.writer import SummaryWriter
+import matplotlib.pyplot as plt
+
 
 class Optimizer():
 
@@ -19,35 +21,57 @@ class Optimizer():
         writer = SummaryWriter()
 
         # Training loop
-        # for epoch in range (params['epochs']):
-        #     # Sums up loss for one epoch
-        #     running_loss = 0.
+        for epoch in range (params['epochs']):
+            # Sums up loss for one epoch
+            running_loss = 0.
+            steps = 0
 
-        #     # Loop over whole dataset
-        #     for idx, data in enumerate(dataloader):
+            # Loop over whole dataset
+            for idx, (reconstruction_tensor, mask_tensor) in enumerate(dataloader):
 
-        #         # TODO
-        #         input, gt = None
+                # Zero gradient
+                optimizer.zero_grad()
 
-        #         # Zero gradient
-        #         optimizer.zero_grad()
+                # Make predictions for this batch
+                pred = model(reconstruction_tensor.float().to(params['device']))
 
-        #         # Make predictions for this batch
-        #         pred = model(input)
+                # Compute loss
+                loss = criterion(pred, mask_tensor.float().to(params['device'])) 
+                loss.backward()
+                running_loss += loss.item()
 
-        #         # Compute loss
-        #         loss = criterion(pred, gt) 
-        #         loss.backward()
-        #         running_loss += loss.item()
+                # Adjust learning weights
+                optimizer.step()
 
-        #         # Adjust learning weights
-        #         optimizer.step()
-        
-        #     # Print results for this epoch
-        #     print(f'Epoch: {epoch}, Loss: {running_loss:.2f}')
+                if steps%50 == 0:
+                
+                    # Print results for this epoch
+                    print(f'Epoch: {steps}, Loss: {running_loss:.2f}')    
 
-        #     # Save intermediate results for training in tensorboard
-        #     writer.add_scalar('Loss/train', running_loss, epoch)
+                    # Save intermediate results for training in tensorboard
+                    writer.add_scalar('Loss/train', running_loss, epoch)
+                    
+                    running_loss = 0.
+
+                if steps%100 == 0:
+                    # Binarize segmentation mask for output
+                    pred[pred>=0.5] = 1
+                    pred[pred<0.5] = 0
+
+                    fig=plt.figure()
+
+                    fig.add_subplot(1, 2, 1).set_title('Prediction')   
+                    plt.imshow(pred[0][0].float().detach().cpu(), cmap=plt.cm.gray_r, vmin=0., vmax=1.)
+
+                    fig.add_subplot(1, 2, 2).set_title('Target')   
+                    # my data is OK to use gray colormap (0:black, 1:white)
+                    plt.imshow(mask_tensor[0][0].float().detach().cpu(), cmap=plt.cm.gray_r, vmin=0., vmax=1.) 
+                    plt.savefig('result' + str(steps) + '.png')
+
+                steps+=1
+
+                if steps == 1000:
+                    break
 
         # Return of trained model
         return model
