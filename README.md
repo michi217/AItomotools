@@ -3,7 +3,7 @@
 University of Cambridge Computational Image Analysis (CIA) groups AI tools for tomographic reconstruction.
 
 
-**WARNING** Building in progress. 
+**WARNING** Building in progress.
 
 Install: (this is a temporary list, we will clean it up)
 
@@ -17,6 +17,15 @@ conda install pip
 /local/scratch/public/<your_username>/anaconda3/envs/<your_env_name>/bin/pip3 install pydicom
 conda install natsort h5py
 conda install -c simpleitk simpleitk
+```
+
+Optional, if you want pre-commits. 
+Then, install pre commits for auto-formating your commits.
+
+```
+conda activate aitomotools
+pip install pre-commit
+pre-commit install
 ```
 
 
