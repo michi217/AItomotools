@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torchvision.models.segmentation import fcn_resnet101, FCN_ResNet101_Weights
-import torchvision.models as models
+
 
 class Resnet101(nn.Module):
     def __init__(self, pretrained: bool):
@@ -22,12 +22,12 @@ class Resnet101(nn.Module):
         """
         Forward path of Resnet101
         """
-        x = self.net(x)
-        x = torch.sigmoid(x['out']) # Use sigmoid function to map input to values between 0 and 1
+        x = self.net(x)['out']
+        #x = torch.sigmoid(x['out']) # Use sigmoid function to map input to values between 0 and 1
         return x
     
-    def save_model(self, timestr):
+    def save_model(self, savepath):
         """
-        Save trained model with given timestring or name
+        Save trained model with given savepath
         """
-        torch.save(self.state_dict(), 'model' + timestr + '.pth')
+        torch.save(self.state_dict(), savepath + 'segmentation_model.pth')
