@@ -10,7 +10,7 @@ import json
 from torch.utils.data import Dataset
 import pydicom as dicom
 
-from backends.odl import ODLBackend
+from AItomotools.backends.odl import ODLBackend
 
 
 def format_index(index: int) -> str:
@@ -130,6 +130,7 @@ class LIDC_IDRI(Dataset):
         self.path_to_processed_dataset = pathlib.Path(
             "/local/scratch/public/AItomotools/processed/LIDC-IDRI"
         )
+        self.patients_diagnosis_dictionary = load_json(self.path_to_processed_dataset.joinpath('patient_id_to_diagnosis.json'))
         self.total_patients = 1012
 
         self.pipeline = pipeline
@@ -235,7 +236,6 @@ class LIDC_IDRI(Dataset):
         file_path = self.path_to_processed_dataset.joinpath(
             f"{patient_id}/slice_{slice_index}.npy"
         )
-
         ### WE NEVER RETURN THE SINOGRAM TO AVOID COMPUTING IT PER SAMPLE ###
         if (
             self.pipeline == "joint"
@@ -252,6 +252,10 @@ class LIDC_IDRI(Dataset):
         elif self.pipeline == "reconstruction":
             reconstruction_tensor = self.get_reconstruction_tensor(file_path)
             return reconstruction_tensor
+        
+        elif self.pipeline == "diagnostic":
+            reconstruction_tensor = self.get_reconstruction_tensor(file_path)
+            return reconstruction_tensor, self.patients_diagnosis_dictionary[patient_id]
 
         else:
             raise NotImplementedError
