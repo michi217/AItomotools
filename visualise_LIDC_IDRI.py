@@ -134,13 +134,13 @@ class Visualise_LIDC_IDRI:
     def plot_slices_per_patient_that_contain_at_least_one_nodule(self, save_values_in_txt=False):
         """
         Creates a plot for each patient in LIDC-IDRI dataset with their number of slices that contain at least one nodule
+        WARNING: Currently really slow computation! Work on how to speedup is in progress... 
         """
 
         print("Preparing slices of each patient contain at least one nodule, this may take time....")
 
         slices_with_nodules_for_patient = {}
         for patientid in tqdm(self.patient_id_with_number_of_slices): # Loop over all patients
-            print(patientid)
             nodule_slice_counter = 0
             for slice in range(self.patient_id_with_number_of_slices[patientid]): # Loop over all slices of each patient
                 scan: pl.Scan = (pl.query(pl.Scan).filter(pl.Scan.patient_id == patientid).first()) # Get information about this patient
@@ -210,6 +210,7 @@ class Visualise_LIDC_IDRI:
     def plot_slices_per_patient_that_contain_more_than_one_nodule(self, save_values_in_txt=False):
         """
         Creates a plot for each patient in LIDC-IDRI dataset with their number of slices that contain more than one nodule
+        WARNING: Currently really slow computation! Work on how to speedup is in progress... 
         """
         
         print("Preparing slices of each patient contain more than one nodule, this may take time....")
