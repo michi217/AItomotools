@@ -63,7 +63,6 @@ class Visualise_LIDC_IDRI:
             plt.savefig(self.savepath + 'patient_with_number_of_slices.png')
             plt.close()
 
-
     def plot_histogram(self, save_values_in_txt=False):
         """
         Creates a histogram plot LIDC-IDRI dataset. (= Total number of patients with n slices)
@@ -144,7 +143,7 @@ class Visualise_LIDC_IDRI:
             nodule_slice_counter = 0
             for slice in range(self.patient_id_with_number_of_slices[patientid]): # Loop over all slices of each patient
                 scan: pl.Scan = (pl.query(pl.Scan).filter(pl.Scan.patient_id == patientid).first()) # Get information about this patient
-                list_of_annotated_nodules = scan.cluster_annotations() # List of annotated nodules of this patient
+                list_of_annotated_nodules = scan.cluster_annotations(verbose=False) # List of annotated nodules of this patient
                 breaker = False
                 for nodule in range(len(list_of_annotated_nodules)): # Loop over all nodules of this patient
                     for nodule_annotation in list_of_annotated_nodules[nodule]: # Loop over all annotations of this nodule
@@ -217,11 +216,10 @@ class Visualise_LIDC_IDRI:
         
         slices_with_nodules_for_patient = {}
         for patientid in tqdm(self.patient_id_with_number_of_slices): # Loop over all patients
-            #print(patientid)
             nodule_slice_counter = 0
             for slice in range(self.patient_id_with_number_of_slices[patientid]): # Loop over all slices of each patient
                 scan: pl.Scan = (pl.query(pl.Scan).filter(pl.Scan.patient_id == patientid).first()) # Get information about this patient
-                list_of_annotated_nodules = scan.cluster_annotations() # List of annotated nodules of this patient
+                list_of_annotated_nodules = scan.cluster_annotations(verbose=False) # List of annotated nodules of this patient
                 breaker = False
                 one_nodule_found = False
                 for nodule in range(len(list_of_annotated_nodules)): # Loop over all nodules of this patient
