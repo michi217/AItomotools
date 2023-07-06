@@ -345,5 +345,8 @@ class Visualise_LIDC_IDRI:
         self.plot_slice_thickness_per_patient(save_values_in_txt=True)
 
 if __name__ == '__main__':
-    savepath = '/store/DAMTP/ml2119/finalTest/'
+    #  
+    # Change savepath
+    #
+    savepath = '/store/DAMTP/ml2119/'
     Visualise_LIDC_IDRI(savepath).create_all_plots()
